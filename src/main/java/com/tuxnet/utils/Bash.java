@@ -7,7 +7,6 @@ import java.util.List;
  * Make sure to set correct path to GNU Bash if not running on Linux
  *
  * @author mrl5
- * @see #Bash(String)
  * <p>
  * References:
  * 1) https://en.wikipedia.org/wiki/Pipeline_(Unix)
@@ -23,6 +22,10 @@ public class Bash {
     /* object for running a command in terminal */
     private ExternalCommand runCmd = new ExternalCommand();
 
+    /**
+     *
+     * @param bashPath path to GNU Bash
+     */
     public Bash(String bashPath) {
         terminalCmd[0] = bashPath;
     }
