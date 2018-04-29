@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * Executes given command in GNU Bash. "quiet", "verbose" and "verboseCmd" modes available.
  * Make sure to set correct path to GNU Bash if not running on Linux
- *
- * @author mrl5
  * <p>
  * References:
  * 1) https://en.wikipedia.org/wiki/Pipeline_(Unix)
+ *
+ * @author mrl5
  */
 
 public class Bash {
@@ -23,7 +23,6 @@ public class Bash {
     private ExternalCommand runCmd = new ExternalCommand();
 
     /**
-     *
      * @param bashPath path to GNU Bash
      */
     public Bash(String bashPath) {
