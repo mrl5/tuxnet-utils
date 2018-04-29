@@ -1,11 +1,11 @@
+package com.tuxnet.utils;
+
 /**
- * Provides methods for determining OS upon which runs JVM
- *
+ * This class provides methods for determining OS upon which runs JVM
+ * <p>
  * References:
  * https://stackoverflow.com/questions/228477/how-do-i-programmatically-determine-operating-system-in-java
  */
-
-package com.tuxnet.utils;
 
 public class OperatingSystem {
     public boolean isWindows() {

@@ -1,3 +1,5 @@
+package com.tuxnet.utils;
+
 import com.tuxnet.utils.Bash;
 
 public class Test {

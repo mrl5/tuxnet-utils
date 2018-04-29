@@ -1,12 +1,3 @@
-/**
- * Abstract class for interaction with H2 database
- *
- * References:
- * https://www.tutorialspoint.com/h2_database/h2_database_jdbc_connection.htm
- *
- * @author mrl5
- */
-
 package com.tuxnet.utils;
 
 import java.sql.Connection;
@@ -17,6 +8,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for interaction with H2 database
+ * <p>
+ * References:
+ * https://www.tutorialspoint.com/h2_database/h2_database_jdbc_connection.htm
+ *
+ * @author mrl5
+ */
+
 public class H2 {
     private static final String JDBC_DRIVER = "org.h2.Driver";
     private final String dbUrl;
@@ -26,11 +26,27 @@ public class H2 {
     private Connection conn = null;
     private Statement stmt = null;
 
+    /**
+     * H2 constructor.
+     *
+     * @param h2DBPath path to H2 database
+     * @param userName valid username to given H2 database
+     * @param password username's password
+     */
+
     public H2(String h2DBPath, String userName, String password) {
         dbUrl = h2DBPath;
         user = userName;
         pass = password;
     }
+
+    /**
+     * Connect to H2 database
+     *
+     * @param verbose if true - gives output to stdout
+     * @throws Exception ClassNotFoundException: when driver declared in JDBC_DRIVER doesn't exist
+     *                   <br>SQLException: when connection to H2 database failed
+     */
 
     public void connect(boolean verbose) throws Exception {
         /* STEP 1: Register JDBC driver */
@@ -41,6 +57,12 @@ public class H2 {
             System.out.println("Connecting to database...");
         conn = DriverManager.getConnection(dbUrl, user, pass);
     }
+
+    /**
+     * Disconnect from H2 database
+     *
+     * @param verbose if true - gives output to stdout
+     */
 
     public void disconnect(boolean verbose) {
         try {
@@ -55,6 +77,16 @@ public class H2 {
         if (verbose)
             System.out.println("Disconnected from database.");
     }
+
+    /**
+     * Run <i>SELECT</i> SQL statement
+     *
+     * @param sqlStatement SQL statement which will be sent to the database
+     * @param columns      retrieved columns from SQL query response
+     * @param verbose      if true - gives sqlStatement to stdout
+     * @return the SQL query response
+     * @throws Exception SQLException
+     */
 
     public List<List<String>> select(String sqlStatement, List<String> columns, boolean verbose) throws Exception {
         List<List<String>> result = new ArrayList<>();

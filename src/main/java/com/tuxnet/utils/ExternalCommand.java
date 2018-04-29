@@ -1,15 +1,3 @@
-/**
- * Runs an external system command from JVM. "quiet" or "verbose" mode available
- *
- * References:
- * 1) https://alvinalexander.com/java/edu/pj/pj010016
- * 2) https://stackoverflow.com/questions/5928225/how-to-make-pipes-work-with-runtime-exec
- * 3) https://en.wikipedia.org/wiki/Pipeline_(Unix)
- *
- * @source https://alvinalexander.com/java/edu/pj/pj010016
- * @modification mrl5
- */
-
 package com.tuxnet.utils;
 
 import java.io.BufferedReader;
@@ -18,19 +6,44 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExternalCommand {
+/**
+ * Runs an external system command from JVM. "quiet" or "verbose" mode available
+ * <p>
+ * References:
+ * 1) https://alvinalexander.com/java/edu/pj/pj010016
+ * 2) https://stackoverflow.com/questions/5928225/how-to-make-pipes-work-with-runtime-exec
+ * 3) https://en.wikipedia.org/wiki/Pipeline_(Unix)
+ *
+ */
 
-    /* only standard output */
+public class ExternalCommand {
+    /**
+     * Only standard output
+     *
+     * @param cmd Console command
+     * @return result as List
+     */
     public List<String> quiet(String[] cmd) {
         return runCmd(cmd, 0);
     }
 
-    /* standard and error output */
+    /**
+     * Standard and error output
+     *
+     * @param cmd Console command
+     * @return result as List
+     */
     public List<String> verbose(String[] cmd) {
         return runCmd(cmd, 1);
     }
 
-    /* by giving String[] argument pipelines will work (more info in ref. #2 and #3) */
+    /**
+     * Runs an external system command from JVM. By giving String[] argument pipelines will work (more info in ref. #2 and #3)
+     *
+     * @param cmd    Console command
+     * @param option 0: quiet; 1: verbose
+     * @return result as List
+     */
     private List<String> runCmd(String[] cmd, int option) {
         List<String> stdOut = new ArrayList<>();
         String s;

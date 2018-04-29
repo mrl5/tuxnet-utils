@@ -1,16 +1,17 @@
-/**
- * Executes given command in GNU Bash. "quiet", "verbose" and "verboseCmd" (additionally shows command) modes available.
- * Make sure to set correct path to GNU Bash if not running on Linux (see class constructors)
- *
- * References:
- * 1) https://en.wikipedia.org/wiki/Pipeline_(Unix)
- *
- * @author mrl5
- */
-
 package com.tuxnet.utils;
 
 import java.util.List;
+
+/**
+ * Executes given command in GNU Bash. "quiet", "verbose" and "verboseCmd" modes available.
+ * Make sure to set correct path to GNU Bash if not running on Linux
+ *
+ * @author mrl5
+ * @see #Bash(String)
+ * <p>
+ * References:
+ * 1) https://en.wikipedia.org/wiki/Pipeline_(Unix)
+ */
 
 public class Bash {
     /* Array made for pipelines (see references) */
@@ -32,19 +33,34 @@ public class Bash {
         else terminalCmd[0] = "/bin/sh";
     }
 
-    /* quiet mode method */
+    /**
+     * Quiet mode method
+     *
+     * @param cmd bash command
+     * @return result as List
+     */
     public List<String> quiet(String cmd) {
         terminalCmd[2] = cmd;
         return runCmd.quiet(terminalCmd);
     }
 
-    /* verbose mode method */
+    /**
+     * verbose mode method
+     *
+     * @param cmd bash command
+     * @return result as List
+     */
     public List<String> verbose(String cmd) {
         terminalCmd[2] = cmd;
         return runCmd.verbose(terminalCmd);
     }
 
-    /* verbose mode method with visible command - like Linux terminal */
+    /**
+     * verbose mode method with visible command - like in Linux terminal
+     *
+     * @param cmd bash command
+     * @return result as List
+     */
     public List<String> verboseCmd(String cmd) {
         StringBuilder terminal = new StringBuilder("$ ");
         terminal.append(cmd);

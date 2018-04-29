@@ -1,11 +1,12 @@
-/**
- * References:
- * https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html
- */
 package com.tuxnet.utils;
 
 import java.net.*;
 import java.io.*;
+
+/**
+ * References:
+ * https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html
+ */
 
 public class URLReader {
     public static void main(String[] args) throws Exception {
