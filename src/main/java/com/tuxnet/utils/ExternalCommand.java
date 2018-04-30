@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Runs an external system command from JVM. "quiet" or "verbose" mode available
+ * Runs an external system command from JVM. "quiet" or "verbose" mode available.
  * <p>
  * References:
  * <br>1) <a href="https://alvinalexander.com/java/edu/pj/pj010016">

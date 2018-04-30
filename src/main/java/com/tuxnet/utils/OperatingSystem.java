@@ -1,7 +1,7 @@
 package com.tuxnet.utils;
 
 /**
- * This class provides methods for determining OS upon which runs JVM
+ * This class provides methods for determining OS upon which runs JVM.
  * <p>
  * References:
  * <br>1) <a href="https://stackoverflow.com/questions/228477/how-do-i-programmatically-determine-operating-system-in-java">

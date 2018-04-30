@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for interaction with H2 database
+ * Class for interaction with H2 database.
  * <p>
  * References:
  * <br> 1) <a href="https://www.tutorialspoint.com/h2_database/h2_database_jdbc_connection.htm">

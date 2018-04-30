@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Executes given command in GNU Bash. "quiet", "verbose" and "verboseCmd" modes available.
- * Make sure to set correct path to GNU Bash if not running on Linux
+ * Make sure to set correct path to GNU Bash if not running on Linux.
  * <p>
  * References:
  * <br>1) <a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)">
