@@ -5,7 +5,8 @@ import java.io.*;
 
 /**
  * References:
- * https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html
+ * <br>1) <a href="https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html">
+ * https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html</a>
  */
 
 public class URLReader {

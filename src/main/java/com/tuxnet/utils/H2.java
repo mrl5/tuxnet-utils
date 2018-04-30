@@ -12,7 +12,8 @@ import java.util.List;
  * Class for interaction with H2 database
  * <p>
  * References:
- * https://www.tutorialspoint.com/h2_database/h2_database_jdbc_connection.htm
+ * <br> 1) <a href="https://www.tutorialspoint.com/h2_database/h2_database_jdbc_connection.htm">
+ * https://www.tutorialspoint.com/h2_database/h2_database_jdbc_connection.htm</a>
  *
  * @author mrl5
  */

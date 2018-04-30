@@ -10,10 +10,12 @@ import java.util.List;
  * Runs an external system command from JVM. "quiet" or "verbose" mode available
  * <p>
  * References:
- * 1) https://alvinalexander.com/java/edu/pj/pj010016
- * 2) https://stackoverflow.com/questions/5928225/how-to-make-pipes-work-with-runtime-exec
- * 3) https://en.wikipedia.org/wiki/Pipeline_(Unix)
- *
+ * <br>1) <a href="https://alvinalexander.com/java/edu/pj/pj010016">
+ * https://alvinalexander.com/java/edu/pj/pj010016</a>
+ * <br>2) <a href="https://stackoverflow.com/questions/5928225/how-to-make-pipes-work-with-runtime-exec">
+ * https://stackoverflow.com/questions/5928225/how-to-make-pipes-work-with-runtime-exec</a>
+ * <br>3) <a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)">
+ * https://en.wikipedia.org/wiki/Pipeline_(Unix)</a>
  */
 
 public class ExternalCommand {

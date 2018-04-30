@@ -7,7 +7,8 @@ import java.util.List;
  * Make sure to set correct path to GNU Bash if not running on Linux
  * <p>
  * References:
- * 1) https://en.wikipedia.org/wiki/Pipeline_(Unix)
+ * <br>1) <a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)">
+ * https://en.wikipedia.org/wiki/Pipeline_(Unix)</a>
  *
  * @author mrl5
  */
