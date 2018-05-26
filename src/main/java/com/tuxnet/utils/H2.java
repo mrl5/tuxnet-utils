@@ -75,10 +75,8 @@ public class H2 {
      *
      * @param checkIfExists if true: before connecting to database method which checks existence of database will be called
      * @param verbose       if true - gives output to stdout
-     * @throws Exception ClassNotFoundException: when driver declared in JDBC_DRIVER doesn't exist
-     *                   <br>SQLException: when connection to H2 database failed
      */
-    public void connect(boolean checkIfExists, boolean verbose) throws Exception {
+    public void connect(boolean checkIfExists, boolean verbose) {
         if (!checkIfExists)
             connect(verbose);
         else {
@@ -93,16 +91,27 @@ public class H2 {
      * Connects to the database.
      *
      * @param verbose if true - gives output to stdout
-     * @throws Exception ClassNotFoundException: when driver declared in JDBC_DRIVER doesn't exist
-     *                   <br>SQLException: when connection to H2 database failed
      */
-    private void connect(boolean verbose) throws Exception {
-        /* STEP 1: Register JDBC driver */
-        Class.forName(JDBC_DRIVER);
+    private void connect(boolean verbose) {
+        try {
+            /* STEP 1: Register JDBC driver */
+            Class.forName(JDBC_DRIVER);
 
-        /* STEP 2: Open a connection */
-        if (verbose) System.out.println("Connecting to database...");
-        conn = DriverManager.getConnection(dbUri, user, pass);
+            /* STEP 2: Open a connection */
+            if (verbose) System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(dbUri, user, pass);
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQLException");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -112,22 +121,24 @@ public class H2 {
      */
     public void disconnect(boolean verbose) {
         try {
-            try {
-                stmt.close();
-            } catch (NullPointerException e) {
-            }
+            stmt.close();
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException");
         } catch (SQLException se2) {
-        } // nothing we can do
-        try {
-            try {
-                conn.close();
-                if (verbose) System.out.println("Disconnected from database.");
-            } catch (NullPointerException e) {
-            }
-        } catch (SQLException se) {
-            se.printStackTrace();
+            System.err.println("SQLException");
         }
-
+        try {
+            conn.close();
+            if (verbose) System.out.println("Disconnected from database.");
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQLException");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -137,10 +148,9 @@ public class H2 {
      * @param columns      retrieved columns from SQL query response
      * @param verbose      if true - gives sqlStatement to stdout
      * @return the SQL query response
-     * @throws Exception SQLException if an SQL error occurs
      */
 
-    public List<List<String>> select(String sqlStatement, List<String> columns, boolean verbose) throws Exception {
+    public List<List<String>> select(String sqlStatement, List<String> columns, boolean verbose) {
         List<List<String>> result = new ArrayList<>();
         List<String> buffer = new ArrayList<>();
 
@@ -162,7 +172,14 @@ public class H2 {
             /* STEP 5: Clean-up environment */
             rs.close();
         } catch (NullPointerException e) {
-        } //nothing to do
+            System.err.println("NullPointerException");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQLException");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return result;
     }
@@ -172,16 +189,22 @@ public class H2 {
      *
      * @param sqlStatement SQL statement which will be sent to the database
      * @param verbose      if true - gives sqlStatement to stdout
-     * @throws Exception SQLException if an SQL error occurs
      */
-    public void runSQLStatement(String sqlStatement, boolean verbose) throws Exception {
+    public void runSQLStatement(String sqlStatement, boolean verbose) {
         try {
             /* STEP 3: Execute statement */
             stmt = conn.createStatement();
             if (verbose) System.out.println(sqlStatement);
             stmt.executeUpdate(sqlStatement);
         } catch (NullPointerException e) {
-        } //nothing to do
+            System.err.println("NullPointerException");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQLException");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
