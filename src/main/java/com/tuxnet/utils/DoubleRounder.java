@@ -4,11 +4,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Rounds input double with given precision.
+ * Rounds input double with given precision
  * <p>
  * References:
- * <br>1) <a href="https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places">
- * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places</a>
+ * <br>1) <a href="https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places">https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places</a>
  */
 
 public class DoubleRounder {
