@@ -19,15 +19,17 @@ import java.util.List;
  * http://www.h2database.com/html/tutorial.html#creating_new_databases</a>
  *
  * @author mrl5
- * @version 2.0
+ * @version 3.0
  */
 
 public class H2 {
     private static final String JDBC_DRIVER = "org.h2.Driver";
+    private static final String JDBC_HEADER = "jdbc:h2:";
+    private static final String SUFFIX = ".mv.db";
+    private String h2DBPath;
+    private String username;
+    private String password;
     private String dbUri;
-    private final String user;
-    private final String pass;
-
     private Connection conn = null;
     private Statement stmt = null;
 
@@ -39,31 +41,35 @@ public class H2 {
      * @param password username's password
      */
     public H2(String h2DBPath, String username, String password) {
+        this.h2DBPath = h2DBPath;
         try {
-            String jdbcHeader = "jdbc:h2:";
-            if (!h2DBPath.startsWith(jdbcHeader))
-                dbUri = jdbcHeader + h2DBPath;
-            else
-                dbUri = h2DBPath;
+            dbUriFormatter();
         } catch (NullPointerException e) {
             System.err.println("WARNING: \"h2DBPath\" argument has illegal \"null\" value.");
         }
-        user = username;
-        pass = password;
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
+     * Formats H2 database URI
+     */
+    private void dbUriFormatter() {
+        dbUri = h2DBPath;
+        if (!h2DBPath.startsWith(JDBC_HEADER))
+            dbUri = JDBC_HEADER + h2DBPath;
+        if (dbUri.endsWith(SUFFIX))
+            dbUri = dbUri.replace(SUFFIX, "");
     }
 
     /**
      * By default, if the database specified in the URL does not yet exist, a new (empty) database is created automatically.
      *
-     * @param verbose if true - gives output to stdout
      * @return true: if database exists <br>false: if database doesn't exist
      */
-    private boolean checkIfExists(boolean verbose) {
+    private boolean checkIfExists() {
         try {
-            String dbUri = this.dbUri.substring(8) + ".mv.db";
-            File db = new File(dbUri);
-            if (!db.exists())
-                System.out.printf("Database doesn't exist: %s\n", dbUri);
+            File db = new File(h2DBPath);
             return db.exists();
         } catch (NullPointerException e) {
             return false;
@@ -75,42 +81,52 @@ public class H2 {
      *
      * @param checkIfExists if true: before connecting to database method which checks existence of database will be called
      * @param verbose       if true - gives output to stdout
+     * @return true: if connection succeed <br>false: if connection failed
      */
-    public void connect(boolean checkIfExists, boolean verbose) {
+    public boolean connect(boolean checkIfExists, boolean verbose) {
+        boolean status;
         if (!checkIfExists)
-            connect(verbose);
+            status = connect(verbose);
         else {
-            if (checkIfExists(verbose))
-                connect(verbose);
-            else
+            if (checkIfExists())
+                status = connect(verbose);
+            else {
                 System.err.println("Database doesn't exist. Aborting.");
+                status = false;
+            }
         }
+        return status;
     }
 
     /**
      * Connects to the database.
      *
      * @param verbose if true - gives output to stdout
+     * @return true: if connection succeed <br>false: if connection failed
      */
-    private void connect(boolean verbose) {
+    private boolean connect(boolean verbose) {
         try {
             /* STEP 1: Register JDBC driver */
             Class.forName(JDBC_DRIVER);
 
             /* STEP 2: Open a connection */
             if (verbose) System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(dbUri, user, pass);
+            conn = DriverManager.getConnection(dbUri, username, password);
+            return true;
         } catch (NullPointerException e) {
             System.err.println("NullPointerException");
-            e.printStackTrace();
+            return false;
         } catch (SQLException e) {
-            System.err.println("SQLException");
-            e.printStackTrace();
+            System.err.println("SQLException:");
+            System.err.println(e.getMessage());
+            return false;
         } catch (ClassNotFoundException e) {
             System.err.println("ClassNotFoundException");
             e.printStackTrace();
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -132,10 +148,9 @@ public class H2 {
             if (verbose) System.out.println("Disconnected from database.");
         } catch (NullPointerException e) {
             System.err.println("NullPointerException");
-            e.printStackTrace();
         } catch (SQLException e) {
-            System.err.println("SQLException");
-            e.printStackTrace();
+            System.err.println("SQLException:");
+            System.err.println(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,10 +188,9 @@ public class H2 {
             rs.close();
         } catch (NullPointerException e) {
             System.err.println("NullPointerException");
-            e.printStackTrace();
         } catch (SQLException e) {
-            System.err.println("SQLException");
-            e.printStackTrace();
+            System.err.println("SQLException:");
+            System.err.println(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -185,7 +199,7 @@ public class H2 {
     }
 
     /**
-     * Runs SQL statement.
+     * Runs SQL statement with SQLException handling.
      *
      * @param sqlStatement SQL statement which will be sent to the database
      * @param verbose      if true - gives sqlStatement to stdout
@@ -198,12 +212,30 @@ public class H2 {
             stmt.executeUpdate(sqlStatement);
         } catch (NullPointerException e) {
             System.err.println("NullPointerException");
-            e.printStackTrace();
         } catch (SQLException e) {
-            System.err.println("SQLException");
-            e.printStackTrace();
+            System.err.println("SQLException:");
+            System.err.println(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Runs SQL statement w/o SQLException handling.
+     *
+     * @param sqlStatement SQL statement which will be sent to the database
+     * @param verbose      if true - gives sqlStatement to stdout
+     * @throws Exception SQLException and Exception (SQLException leftovers)
+     */
+
+    public void runSQLStatement2(String sqlStatement, boolean verbose) throws Exception {
+        try {
+            /* STEP 3: Execute statement */
+            stmt = conn.createStatement();
+            if (verbose) System.out.println(sqlStatement);
+            stmt.executeUpdate(sqlStatement);
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException");
         }
     }
 
@@ -212,5 +244,32 @@ public class H2 {
      */
     public String getDbUri() {
         return dbUri;
+    }
+
+    public String getH2DBPath() {
+        return h2DBPath;
+    }
+
+    public void setH2DBPath(String h2DBPath) {
+        this.h2DBPath = h2DBPath;
+        dbUriFormatter();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /* probably not good idea, but is needed at this time */
+    //todo: hash?
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
