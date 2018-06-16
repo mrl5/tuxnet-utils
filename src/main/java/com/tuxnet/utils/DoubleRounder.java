@@ -18,7 +18,7 @@ public class DoubleRounder {
      * @param places number of significant digits
      * @return rounded number
      */
-    public Double round(double value, int places) {
+    public static Double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(value);
